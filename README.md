@@ -8,4 +8,4 @@ Approach was to design around the already written tests to build out our algorit
 Currently is stand alone logic. Will be able to run game later.
 
 ## Table of PR:
-12/23 Submission: https://github.com/TaylorWhite21/game_of_greed/pull/2
+12/23 Submission: https://github.com/TaylorWhite21/game_of_greed/pull/3
