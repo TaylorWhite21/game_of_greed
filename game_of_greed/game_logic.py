@@ -1,6 +1,8 @@
 import random
 from collections import Counter
 from banker import Banker
+import sys
+
 
 # num_of_dice = 6
 # rounds = 0
@@ -13,6 +15,7 @@ class Gamelogic:
     self.saved_dice = ''
     self.dice_list = []
     self.banker = Banker()
+    self.roll_results = []
     
   def play_game(self): 
     print('Welcome to Game of Greed')
@@ -20,22 +23,23 @@ class Gamelogic:
     answer = input('> ')
     if answer == 'y':
       self.start_new_round()
+    else:
+      print('OK. Maybe another time')
     
     print('Enter dice to keep, or (q)uit:')
     self.saved_dice = input('> ')
     if self.saved_dice == 'q':
-     print('Thanks for playing.')
+      print('Thanks for playing.')
+      sys.exit(0)
+      
     else:
       print('seriously, this hurts')
       print(self.dice_list)
       self.dice_list = self.string_to_integer(self.saved_dice)
       print(self.dice_list)
-      for dice in self.dice_list:
-        print('this is hell')
-        if self.saved_dice == self.dice_list[dice]:
-          self.banker.shelf = self.calculate_score(self.saved_dice)
-          unbanked_points = self.banker.shelf
-          print(f'You have {unbanked_points} unbanked points')
+      # Made this to verify the dice choices. Our other version was banking points inside of the for loop.
+      if self.verify_dice_choices() == True:
+        self.unbanked_points(self.dice_list)
     
     print('(r)oll again, (b)ank your points or (q)uit:')
     answer_after_roll = input('> ')
@@ -48,22 +52,44 @@ class Gamelogic:
       
     else:
       print('Thanks for playing.')
+
+  # Verifies players dice choices and makes sure that they are in the roll results.
+  def verify_dice_choices(self):
+    verified_dice = False
+    for dice in range(1, len(self.roll_results)):
+      print(f'dice {dice}')
+      print(f'roll results {self.roll_results}')
+      if self.roll_results[dice] in self.dice_list:
+        verified_dice = True
+      else:
+        print('Please enter a valid choice of dice')
+    return verified_dice
     
+  # displays unabnked points to player
+  def unbanked_points(self, num):
+    self.banker.shelf = self.calculate_score(num)
+    unbanked_points = self.banker.shelf
+    print(f'You have {unbanked_points} unbanked points')
+    
+  # Starts a new round by incrementing rounds and rolling new dice
   def start_new_round(self):
     roll_str = ''
     self.rounds += 1
     print(f'Starting round {self.rounds}')
     how_many_dice = self.number_of_rolled_dice()
-    roll_results = self.roll_dice(how_many_dice)
-    for num in roll_results:
+    self.roll_results = self.roll_dice(how_many_dice)
+    for num in self.roll_results:
       roll_str += str(num) + ' '
-    print(f'*** {roll_results}***')
+    print(f'*** {self.roll_results}***')
+    return self.roll_results
   
+  # Calculates how many dice to roll
   def number_of_rolled_dice(self):
     
     rolled_dice = self.num_of_dice - len(self.string_to_integer(self.saved_dice))
     return rolled_dice
     
+   # Converts player chosen dice from string to integers 
   def string_to_integer(self, str):
     saved_dice_list = []
     for char in str:
@@ -74,6 +100,7 @@ class Gamelogic:
         continue
     return saved_dice_list
   
+  # Rolls dice and adds them to dice list
   @staticmethod
   def roll_dice(rolled_dice):
     dice_list = []
@@ -81,6 +108,7 @@ class Gamelogic:
       dice_list.append(random.randint(1,6))
     return tuple(dice_list)
 
+  # calculates score of players saved dice.
   @staticmethod
   def calculate_score(dice):
     print(Counter(dice))
@@ -111,5 +139,5 @@ class Gamelogic:
     return points
 
 if __name__ == '__main__':
-  play_game = Gamelogic()
-  play_game.play_game()
+  farkle = Gamelogic()
+  farkle.play_game()
