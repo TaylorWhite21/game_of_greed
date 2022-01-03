@@ -8,7 +8,7 @@
 import pytest
 from game_of_greed.game_logic import Gamelogic
 
-pytestmark = [pytest.mark.version_1]
+# pytestmark = [pytest.mark.version_1]
 
 # @pytest.mark.skip('pending')
 def test_1_dice():
