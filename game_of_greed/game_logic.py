@@ -17,7 +17,7 @@ class Gamelogic:
     self.banker = Banker()
     self.roll_results = []
     
-  def play_game(self): 
+  def play_game(self, roller=None): 
     print('Welcome to Game of Greed')
     print('(y)es to play or (n)o to decline')
     answer = input('> ')
@@ -29,7 +29,7 @@ class Gamelogic:
     print('Enter dice to keep, or (q)uit:')
     self.saved_dice = input('> ')
     if self.saved_dice == 'q':
-      print('Thanks for playing.')
+      print(f'Thanks for playing. You have {self.banker.balance} points')
       sys.exit(0)
       
     else:
@@ -106,6 +106,7 @@ class Gamelogic:
     dice_list = []
     for _ in range(rolled_dice):
       dice_list.append(random.randint(1,6))
+    print(f"Rolling {len(dice_list)} dice...")
     return tuple(dice_list)
 
   # calculates score of players saved dice.
@@ -115,8 +116,7 @@ class Gamelogic:
     sorted_dice = Counter(dice)
     points = 0
     print(len(sorted_dice))
-    print(sorted_dice.values())
-    # {1: 1, 5: 1}  
+    print(sorted_dice.values()) 
     if len(sorted_dice) == 6:
       points += 1500    
     elif len(sorted_dice) == 3 and set(sorted_dice.values()) == set((2, 2, 2)):
