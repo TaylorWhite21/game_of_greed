@@ -4,7 +4,7 @@ from game_of_greed.game_logic import Gamelogic
 
 pytestmark = [pytest.mark.version_2]
 
-
+#Test
 def test_quitter():
     game = Gamelogic()
     diffs = diff(game.play, path="tests/version_2/quitter.sim.txt")
