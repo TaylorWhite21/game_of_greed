@@ -1,12 +1,16 @@
 import random
 from collections import Counter
-from banker import Banker
+try:
+    from banker import Banker
+except:
+    from game_of_greed.banker import Banker
+
 import sys
 
 
 # num_of_dice = 6
 # rounds = 0
-
+      
 class Gamelogic:
   
   def __init__(self):
@@ -17,7 +21,8 @@ class Gamelogic:
     self.banker = Banker()
     self.roll_results = []
     
-  def play_game(self, roller=None): 
+  def play(self, roller=None): 
+    self.roller = roller or self.roll_dice
     print('Welcome to Game of Greed')
     print('(y)es to play or (n)o to decline')
     answer = input('> ')
@@ -25,11 +30,12 @@ class Gamelogic:
       self.start_new_round()
     else:
       print('OK. Maybe another time')
+      sys.exit(0)
     
     print('Enter dice to keep, or (q)uit:')
     self.saved_dice = input('> ')
     if self.saved_dice == 'q':
-      print(f'Thanks for playing. You have {self.banker.balance} points')
+      print(f'Thanks for playing. You earned {self.banker.balance} points')
       sys.exit(0)
       
     else:
@@ -78,10 +84,15 @@ class Gamelogic:
     print(f'Starting round {self.rounds}')
     how_many_dice = self.number_of_rolled_dice()
     self.roll_results = self.roll_dice(how_many_dice)
+    self.roll_results = self.format_tuple(self.roll_results)
     for num in self.roll_results:
       roll_str += str(num) + ' '
-    print(f'*** {self.roll_results}***')
+    print(f'*** {self.roll_results} ***')
     return self.roll_results
+
+  def format_tuple(self, rolled_dice):
+    formatted_dice = str(rolled_dice).strip("([])").replace(", ", " ")
+    return formatted_dice
   
   # Calculates how many dice to roll
   def number_of_rolled_dice(self):
@@ -140,4 +151,4 @@ class Gamelogic:
 
 if __name__ == '__main__':
   farkle = Gamelogic()
-  farkle.play_game()
+  farkle.play()
