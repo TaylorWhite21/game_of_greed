@@ -62,7 +62,7 @@ class Gamelogic:
       if self.roll_results[dice] in self.dice_list:
         verified_dice = True
       else:
-        print('Please enter a valid choice of dice')
+        print('Cheater!!! Or possibly a typo...')
     return verified_dice
     
   # displays unabnked points to player
