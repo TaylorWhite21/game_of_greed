@@ -10,9 +10,6 @@ class Gamelogic:
   def __init__(self):
     self.banker = Banker()
   
-    
-  
-  
   # Rolls dice and adds them to dice list
   # @staticmethod
   def roll_dice(rolled_dice):
@@ -46,3 +43,25 @@ class Gamelogic:
 
     print("return", points)
     return points
+
+  # Borrowed from given code
+  @staticmethod
+  def verify_dice_choices(roll, keepers):
+    keeper_counter = Counter(keepers)
+    roll_counter = Counter(roll)
+    result = keeper_counter - roll_counter
+    return not result
+
+  @staticmethod
+  def get_scorers(dice):
+      # version_3
+      all_dice_score = Gamelogic.calculate_score(dice)
+      if all_dice_score == 0:
+          return tuple()
+      scorers = []
+      for i, val in enumerate(dice):
+          sub_roll = dice[:i] + dice[i + 1 :]
+          sub_score = Gamelogic.calculate_score(sub_roll)
+          if sub_score != all_dice_score:
+              scorers.append(val)
+      return tuple(scorers)
