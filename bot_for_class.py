@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 import builtins
 import re
 from game_of_greed.game import Game
-from game_of_greed.game_logic import GameLogic
+from game_of_greed.game_logic import Gamelogic
 
 class BaseBot(ABC):
     """Base class for Game of Greed bots"""
@@ -83,7 +83,7 @@ class BaseBot(ABC):
         """simulate user entering which dice to keep.
         Defaults to all scoring dice"""
 
-        roll = GameLogic.get_scorers(self.last_roll)
+        roll = Gamelogic.get_scorers(self.last_roll)
 
         roll_string = ""
 
